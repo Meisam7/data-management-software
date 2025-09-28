@@ -357,6 +357,77 @@ namespace afshin
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (dataGridView1.DataSource is DataTable dt)
+            {
+                string selectedValue = comboBox1.SelectedItem?.ToString().Replace("'", "''");
+
+                if (string.IsNullOrWhiteSpace(selectedValue))
+                    dt.DefaultView.RowFilter = ""; // Show all rows
+                else
+                    dt.DefaultView.RowFilter = $"[استان] = '{selectedValue}'";
+            }
+        }
+
+        private void textBox12_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox9_TextChanged(object sender, EventArgs e)
+        {
+            if (dataGridView1.DataSource is DataTable dt)
+            {
+                string search = textBox9.Text.Replace("'", "''");
+
+                if (string.IsNullOrWhiteSpace(search))
+                    dt.DefaultView.RowFilter = ""; // Show all rows
+                else
+                    dt.DefaultView.RowFilter = $"[نام مشتری] LIKE '%{search}%'";
+            }
+        }
+
+        private void textBox7_TextChanged(object sender, EventArgs e)
+        {
+            if (dataGridView1.DataSource is DataTable dt)
+            {
+                string search = textBox7.Text.Replace("'", "''");
+
+                if (string.IsNullOrWhiteSpace(search))
+                    dt.DefaultView.RowFilter = ""; // Show all rows
+                else
+                    dt.DefaultView.RowFilter = $"[گیرنده(محل تخلیه)] LIKE '%{search}%'";
+            }
+        }
+
+        private void textBox8_TextChanged(object sender, EventArgs e)
+        {
+            if (dataGridView1.DataSource is DataTable dt)
+            {
+                string search = textBox8.Text.Replace("'", "''");
+
+                if (string.IsNullOrWhiteSpace(search))
+                    dt.DefaultView.RowFilter = ""; // Show all rows
+                else
+                    dt.DefaultView.RowFilter = $"CONVERT([مقدار حواله], System.String) LIKE '%{search}%'";
+            }
+        }
+
+        private void textBox10_TextChanged(object sender, EventArgs e)
+        {
+            if (dataGridView1.DataSource is DataTable dt)
+            {
+                string search = textBox10.Text.Replace("'", "''");
+
+                if (string.IsNullOrWhiteSpace(search))
+                    dt.DefaultView.RowFilter = ""; // Show all rows
+                else
+                    dt.DefaultView.RowFilter = $"[وضعیت فاکتور] LIKE '%{search}%'";
+            }
         }
     }
 }
