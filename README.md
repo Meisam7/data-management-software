@@ -5,6 +5,11 @@ A Windows desktop application developed with **C# WinForms** for managing custom
 This project is designed to help store, view, search, add, edit, and export business records using a local Microsoft Access database.
 
 ---
+## 📸 Screenshots
+
+### Main Window
+
+![Main Window](screenshots/main-window.png)
 
 ## 📌 Project Description
 
