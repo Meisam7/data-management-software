@@ -284,9 +284,42 @@ namespace afshin
             clienInfoForm.ShowDialog();
         }
 
-        private void فهرستمشتریانToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void فهرستمشتریانToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            try
+            {
+                // Clear DataGridView before loading new data
+                dataGridView1.DataSource = null;
+                dataGridView1.Rows.Clear();
+                dataGridView1.Columns.Clear();
 
+                // Retrieve the path from settings and load the data
+                string dbPath = Properties.Settings.Default.LastDBPath;
+
+                if (string.IsNullOrEmpty(dbPath) || !File.Exists(dbPath))
+                {
+                    MessageBox.Show("Database path is not valid or set.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Set the database path in Class1
+                Class1.SetDatabasePath(dbPath);
+
+
+                // Disable GroupBox1 and enable groupbox2
+                groupBox1.Enabled = false;  // Disable GroupBox2
+                groupBox2.Enabled = true;  // Enable GroupBox1
+
+                // Load Table2 asynchronously into the grid
+                await Task.Run(() => Class1.LoadTableIntoGrid(dataGridView1, "Table2"));
+
+                // Update the flag to track that Table2 is loaded
+                currentTable = "Table2";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -460,6 +493,48 @@ namespace afshin
             dataGridView1.DataSource = dt;
 
             currentTable = "Table2";
+        }
+
+        private void افزودنToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void فهرستToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                // Clear DataGridView before loading new data
+                dataGridView1.DataSource = null;
+                dataGridView1.Rows.Clear();
+                dataGridView1.Columns.Clear();
+
+                // Retrieve the path from settings and load the data
+                string dbPath = Properties.Settings.Default.LastDBPath;
+
+                if (string.IsNullOrEmpty(dbPath) || !File.Exists(dbPath))
+                {
+                    MessageBox.Show("Database path is not valid or set.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Set the database path in Class1
+                Class1.SetDatabasePath(dbPath);
+
+                // Disable GroupBox2 and enable groupbox1
+                groupBox2.Enabled = false;  // Disable GroupBox2
+                groupBox1.Enabled = true;  // Enable GroupBox1
+
+                // Load Table1 asynchronously into the grid
+                await Task.Run(() => Class1.LoadTableIntoGrid(dataGridView1, "Table1"));
+
+                currentTable = "Table1";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
