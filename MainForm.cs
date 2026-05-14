@@ -429,5 +429,37 @@ namespace afshin
                     dt.DefaultView.RowFilter = $"[وضعیت فاکتور] LIKE '%{search}%'";
             }
         }
+
+        public void RefreshTable2()
+        {
+            string dbPath = Properties.Settings.Default.LastDBPath;
+
+            if (string.IsNullOrWhiteSpace(dbPath) || !File.Exists(dbPath))
+            {
+                MessageBox.Show("مسیر دیتابیس معتبر نیست.");
+                return;
+            }
+
+            string provider = Path.GetExtension(dbPath).ToLower() == ".mdb"
+                ? "Microsoft.Jet.OLEDB.4.0"
+                : "Microsoft.ACE.OLEDB.16.0";
+
+            string connectionString =
+                $@"Provider={provider};Data Source={dbPath};Persist Security Info=False;";
+
+            DataTable dt = new DataTable();
+
+            using (OleDbConnection conn = new OleDbConnection(connectionString))
+            using (OleDbDataAdapter da = new OleDbDataAdapter("SELECT * FROM [Table2]", conn))
+            {
+                da.Fill(dt);
+            }
+
+            dataGridView1.DataSource = null;
+            dataGridView1.AutoGenerateColumns = true;
+            dataGridView1.DataSource = dt;
+
+            currentTable = "Table2";
+        }
     }
 }
