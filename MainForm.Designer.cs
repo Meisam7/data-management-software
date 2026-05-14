@@ -28,8 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.تنظیماتپایهToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.پایگاهدادهToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -133,14 +131,14 @@
             // افزودنToolStripMenuItem1
             // 
             this.افزودنToolStripMenuItem1.Name = "افزودنToolStripMenuItem1";
-            this.افزودنToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.افزودنToolStripMenuItem1.Size = new System.Drawing.Size(159, 22);
             this.افزودنToolStripMenuItem1.Text = "افزودن";
             this.افزودنToolStripMenuItem1.Click += new System.EventHandler(this.افزودنToolStripMenuItem1_Click);
             // 
             // فهرستمشتریانToolStripMenuItem
             // 
             this.فهرستمشتریانToolStripMenuItem.Name = "فهرستمشتریانToolStripMenuItem";
-            this.فهرستمشتریانToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.فهرستمشتریانToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.فهرستمشتریانToolStripMenuItem.Text = "فهرست مشتریان";
             this.فهرستمشتریانToolStripMenuItem.Click += new System.EventHandler(this.فهرستمشتریانToolStripMenuItem_Click);
             // 
@@ -156,14 +154,14 @@
             // افزودنToolStripMenuItem2
             // 
             this.افزودنToolStripMenuItem2.Name = "افزودنToolStripMenuItem2";
-            this.افزودنToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.افزودنToolStripMenuItem2.Size = new System.Drawing.Size(113, 22);
             this.افزودنToolStripMenuItem2.Text = "افزودن";
             this.افزودنToolStripMenuItem2.Click += new System.EventHandler(this.افزودنToolStripMenuItem2_Click);
             // 
             // فهرستToolStripMenuItem
             // 
             this.فهرستToolStripMenuItem.Name = "فهرستToolStripMenuItem";
-            this.فهرستToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.فهرستToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.فهرستToolStripMenuItem.Text = "فهرست";
             this.فهرستToolStripMenuItem.Click += new System.EventHandler(this.فهرستToolStripMenuItem_Click);
             // 
@@ -229,23 +227,7 @@
             this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridView1.Location = new System.Drawing.Point(12, 293);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dataGridView1.Name = "dataGridView1";
@@ -367,7 +349,7 @@
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.textBox2);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
+            this.groupBox1.Font = new System.Drawing.Font("B Nazanin", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.groupBox1.Location = new System.Drawing.Point(410, 15);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
