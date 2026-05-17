@@ -40,7 +40,6 @@
             this.خروجیToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.عملیاتاصلیToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.افزودنToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.رکورداصلیToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.نمایشToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.جدولاصلیToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.جدولمشتریانToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -75,6 +74,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelSum = new System.Windows.Forms.ToolStripStatusLabel();
+            this.جدولحوالههاToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -182,25 +182,17 @@
             // 
             // افزودنToolStripMenuItem
             // 
-            this.افزودنToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.رکورداصلیToolStripMenuItem});
             this.افزودنToolStripMenuItem.Name = "افزودنToolStripMenuItem";
-            this.افزودنToolStripMenuItem.Size = new System.Drawing.Size(125, 28);
-            this.افزودنToolStripMenuItem.Text = "مشتریان";
+            this.افزودنToolStripMenuItem.Size = new System.Drawing.Size(180, 28);
+            this.افزودنToolStripMenuItem.Text = "درج حواله جدید";
             this.افزودنToolStripMenuItem.Click += new System.EventHandler(this.افزودنToolStripMenuItem_Click);
-            // 
-            // رکورداصلیToolStripMenuItem
-            // 
-            this.رکورداصلیToolStripMenuItem.Name = "رکورداصلیToolStripMenuItem";
-            this.رکورداصلیToolStripMenuItem.Size = new System.Drawing.Size(151, 28);
-            this.رکورداصلیToolStripMenuItem.Text = "اطلاعات اصلی";
-            this.رکورداصلیToolStripMenuItem.Click += new System.EventHandler(this.رکورداصلیToolStripMenuItem_Click);
             // 
             // نمایشToolStripMenuItem
             // 
             this.نمایشToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.جدولاصلیToolStripMenuItem,
-            this.جدولمشتریانToolStripMenuItem});
+            this.جدولحوالههاToolStripMenuItem,
+            this.جدولمشتریانToolStripMenuItem,
+            this.جدولاصلیToolStripMenuItem});
             this.نمایشToolStripMenuItem.Name = "نمایشToolStripMenuItem";
             this.نمایشToolStripMenuItem.Size = new System.Drawing.Size(55, 28);
             this.نمایشToolStripMenuItem.Text = "نمایش";
@@ -208,14 +200,14 @@
             // جدولاصلیToolStripMenuItem
             // 
             this.جدولاصلیToolStripMenuItem.Name = "جدولاصلیToolStripMenuItem";
-            this.جدولاصلیToolStripMenuItem.Size = new System.Drawing.Size(159, 28);
-            this.جدولاصلیToolStripMenuItem.Text = "جدول اصلی";
+            this.جدولاصلیToolStripMenuItem.Size = new System.Drawing.Size(246, 28);
+            this.جدولاصلیToolStripMenuItem.Text = "جدول دستگاه های طرف قرارداد";
             this.جدولاصلیToolStripMenuItem.Click += new System.EventHandler(this.جدولاصلیToolStripMenuItem_Click);
             // 
             // جدولمشتریانToolStripMenuItem
             // 
             this.جدولمشتریانToolStripMenuItem.Name = "جدولمشتریانToolStripMenuItem";
-            this.جدولمشتریانToolStripMenuItem.Size = new System.Drawing.Size(159, 28);
+            this.جدولمشتریانToolStripMenuItem.Size = new System.Drawing.Size(180, 28);
             this.جدولمشتریانToolStripMenuItem.Text = "جدول مشتریان";
             this.جدولمشتریانToolStripMenuItem.Click += new System.EventHandler(this.جدولمشتریانToolStripMenuItem_Click);
             // 
@@ -229,7 +221,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(12, 293);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -246,7 +238,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.tabControl1.Location = new System.Drawing.Point(9, 37);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.tabControl1.RightToLeftLayout = true;
@@ -259,9 +251,9 @@
             this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage1.Size = new System.Drawing.Size(974, 225);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "جست و جو";
@@ -276,9 +268,9 @@
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.groupBox2.Location = new System.Drawing.Point(111, 15);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox2.Size = new System.Drawing.Size(294, 205);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
@@ -289,7 +281,7 @@
             this.textBox6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox6.Font = new System.Drawing.Font("B Nazanin", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.textBox6.Location = new System.Drawing.Point(22, 71);
-            this.textBox6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox6.Margin = new System.Windows.Forms.Padding(2);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(193, 33);
             this.textBox6.TabIndex = 10;
@@ -310,7 +302,7 @@
             this.textBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox5.Font = new System.Drawing.Font("B Nazanin", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.textBox5.Location = new System.Drawing.Point(22, 36);
-            this.textBox5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox5.Margin = new System.Windows.Forms.Padding(2);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(193, 33);
             this.textBox5.TabIndex = 8;
@@ -351,9 +343,9 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Font = new System.Drawing.Font("B Nazanin", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.groupBox1.Location = new System.Drawing.Point(410, 15);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(562, 205);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
@@ -398,7 +390,7 @@
             "همدان",
             "یزد"});
             this.comboBox1.Location = new System.Drawing.Point(20, 24);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(155, 34);
             this.comboBox1.TabIndex = 8;
@@ -433,7 +425,7 @@
             this.textBox10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox10.Font = new System.Drawing.Font("B Nazanin", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.textBox10.Location = new System.Drawing.Point(20, 162);
-            this.textBox10.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox10.Margin = new System.Windows.Forms.Padding(2);
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(155, 33);
             this.textBox10.TabIndex = 7;
@@ -444,7 +436,7 @@
             this.textBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox4.Font = new System.Drawing.Font("B Nazanin", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.textBox4.Location = new System.Drawing.Point(280, 162);
-            this.textBox4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox4.Margin = new System.Windows.Forms.Padding(2);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(155, 33);
             this.textBox4.TabIndex = 7;
@@ -467,7 +459,7 @@
             this.textBox9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox9.Font = new System.Drawing.Font("B Nazanin", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.textBox9.Location = new System.Drawing.Point(20, 58);
-            this.textBox9.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox9.Margin = new System.Windows.Forms.Padding(2);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(155, 33);
             this.textBox9.TabIndex = 1;
@@ -478,7 +470,7 @@
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.Font = new System.Drawing.Font("B Nazanin", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.textBox1.Location = new System.Drawing.Point(280, 23);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(155, 33);
             this.textBox1.TabIndex = 1;
@@ -525,7 +517,7 @@
             this.textBox12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox12.Font = new System.Drawing.Font("B Nazanin", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.textBox12.Location = new System.Drawing.Point(280, 128);
-            this.textBox12.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox12.Margin = new System.Windows.Forms.Padding(2);
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new System.Drawing.Size(155, 33);
             this.textBox12.TabIndex = 5;
@@ -536,7 +528,7 @@
             this.textBox8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox8.Font = new System.Drawing.Font("B Nazanin", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.textBox8.Location = new System.Drawing.Point(20, 128);
-            this.textBox8.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox8.Margin = new System.Windows.Forms.Padding(2);
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(155, 33);
             this.textBox8.TabIndex = 5;
@@ -571,7 +563,7 @@
             this.textBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox3.Font = new System.Drawing.Font("B Nazanin", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.textBox3.Location = new System.Drawing.Point(280, 93);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox3.Margin = new System.Windows.Forms.Padding(2);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(155, 33);
             this.textBox3.TabIndex = 5;
@@ -582,7 +574,7 @@
             this.textBox7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox7.Font = new System.Drawing.Font("B Nazanin", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.textBox7.Location = new System.Drawing.Point(20, 93);
-            this.textBox7.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox7.Margin = new System.Windows.Forms.Padding(2);
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(155, 33);
             this.textBox7.TabIndex = 3;
@@ -605,7 +597,7 @@
             this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox2.Font = new System.Drawing.Font("B Nazanin", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.textBox2.Location = new System.Drawing.Point(280, 58);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(155, 33);
             this.textBox2.TabIndex = 3;
@@ -644,6 +636,13 @@
             this.toolStripStatusLabelSum.Size = new System.Drawing.Size(51, 20);
             this.toolStripStatusLabelSum.Text = "جمع: 0";
             // 
+            // جدولحوالههاToolStripMenuItem
+            // 
+            this.جدولحوالههاToolStripMenuItem.Name = "جدولحوالههاToolStripMenuItem";
+            this.جدولحوالههاToolStripMenuItem.Size = new System.Drawing.Size(246, 28);
+            this.جدولحوالههاToolStripMenuItem.Text = "جدول حواله ها";
+            this.جدولحوالههاToolStripMenuItem.Click += new System.EventHandler(this.جدولحوالههاToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -656,7 +655,7 @@
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MainForm";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -696,7 +695,6 @@
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label3;
         public System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.ToolStripMenuItem رکورداصلیToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem نمایشToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem جدولاصلیToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem جدولمشتریانToolStripMenuItem;
@@ -727,6 +725,7 @@
         private System.Windows.Forms.TextBox textBox12;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ToolStripMenuItem جدولحوالههاToolStripMenuItem;
     }
 }
 

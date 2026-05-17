@@ -20,6 +20,7 @@ namespace afshin
         Form2 form2 = new Form2();
         DBInfoForm dBInfoForm = new DBInfoForm();
         ClienInfoForm clienInfoForm = new ClienInfoForm();
+        ContractParty ContractParty=new ContractParty();
         private string currentTable = "";
         public MainForm()
         {
@@ -188,9 +189,9 @@ namespace afshin
                 groupBox1.Enabled = true;  // Enable GroupBox1
 
                 // Load Table1 asynchronously into the grid
-                await Task.Run(() => Class1.LoadTableIntoGrid(dataGridView1, "Table1"));
+                await Task.Run(() => Class1.LoadTableIntoGrid(dataGridView1, "Table3"));
 
-                currentTable = "Table1";
+                currentTable = "Table3";
             }
             catch (Exception ex)
             {
@@ -497,12 +498,11 @@ namespace afshin
 
         private void افزودنToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-
+            ContractParty.ShowDialog();
         }
 
         private async void فهرستToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             try
             {
                 // Clear DataGridView before loading new data
@@ -527,9 +527,48 @@ namespace afshin
                 groupBox1.Enabled = true;  // Enable GroupBox1
 
                 // Load Table1 asynchronously into the grid
+                await Task.Run(() => Class1.LoadTableIntoGrid(dataGridView1, "Table3"));
+
+                currentTable = "Table3";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void جدولحوالههاToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                // Clear DataGridView before loading new data
+                dataGridView1.DataSource = null;
+                dataGridView1.Rows.Clear();
+                dataGridView1.Columns.Clear();
+
+                // Retrieve the path from settings and load the data
+                string dbPath = Properties.Settings.Default.LastDBPath;
+
+                if (string.IsNullOrEmpty(dbPath) || !File.Exists(dbPath))
+                {
+                    MessageBox.Show("Database path is not valid or set.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Set the database path in Class1
+                Class1.SetDatabasePath(dbPath);
+
+
+                // Disable GroupBox1 and enable groupbox2
+                groupBox1.Enabled = false;  // Disable GroupBox2
+                groupBox2.Enabled = true;  // Enable GroupBox1
+
+                // Load Table2 asynchronously into the grid
                 await Task.Run(() => Class1.LoadTableIntoGrid(dataGridView1, "Table1"));
 
-                currentTable = "Table1";
+                // Update the flag to track that Table2 is loaded
+                currentTable = "Table2";
             }
             catch (Exception ex)
             {
