@@ -134,6 +134,7 @@ namespace afshin
 
         private void افزودنToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            form2.ShowDialog();
         }
 
         private void ویرایشToolStripMenuItem_Click(object sender, EventArgs e)
