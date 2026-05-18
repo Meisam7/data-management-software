@@ -252,9 +252,9 @@
             this.label6.Location = new System.Drawing.Point(642, 27);
             this.label6.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(115, 26);
+            this.label6.Size = new System.Drawing.Size(124, 26);
             this.label6.TabIndex = 26;
-            this.label6.Text = "شناسه درخواست :";
+            this.label6.Text = "*شناسه درخواست :";
             // 
             // label8
             // 
@@ -280,9 +280,9 @@
             this.label7.Location = new System.Drawing.Point(670, 64);
             this.label7.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(87, 26);
+            this.label7.Size = new System.Drawing.Size(96, 26);
             this.label7.TabIndex = 27;
-            this.label7.Text = "شناسه حواله:";
+            this.label7.Text = "*شناسه حواله:";
             // 
             // comboBox3
             // 
