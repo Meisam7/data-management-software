@@ -133,6 +133,18 @@ namespace afshin
             decimal? finalAmountValue = ToNullableDecimal(finalAmountText);
             decimal? invoiceAmountValue = ToNullableDecimal(invoiceAmountText);
 
+            // مقدار تهاتر
+            decimal? tahatorAmountValue = ToNullableDecimal(textBox20.Text.Trim());
+
+            // محاسبه مانده حواله
+            decimal remainingHavaleValue =
+                (finalAmountValue ?? 0)
+                - ((sendAmountValue ?? 0) + (buyAmountValue ?? 0) + (tahatorAmountValue ?? 0));
+
+            textBox19.Text = remainingHavaleValue.ToString();
+
+            remainingHavale = textBox19.Text.Trim();
+
             if (havaleNumberValue == null)
             {
                 MessageBox.Show("شماره حواله باید عدد باشد.");
@@ -227,7 +239,7 @@ namespace afshin
                         AddParam(cmd, finalAmountValue);       // مقدار نهایی
                         AddParam(cmd, carrierName);            // پیمانکار حمل
                         AddParam(cmd, invoiceAmountValue);     // مبلغ فاکتور
-                        AddParam(cmd, remainingHavale);        // مانده حواله
+                        AddParam(cmd, remainingHavaleValue);        // مانده حواله
                         AddParam(cmd, remainingInvoice);       // مانده فاکتور
                         AddParam(cmd, description);            // توضیحات
 
