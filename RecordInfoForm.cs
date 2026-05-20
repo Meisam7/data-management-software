@@ -151,6 +151,65 @@ namespace afshin
             }
         }
 
+
+        private void LoadBitumenNamesIntoComboBox1()
+        {
+            string dbPath = Properties.Settings.Default.LastDBPath;
+
+            if (string.IsNullOrWhiteSpace(dbPath) || !File.Exists(dbPath))
+            {
+                MessageBox.Show("مسیر دیتابیس معتبر نیست.");
+                return;
+            }
+
+            string provider = Path.GetExtension(dbPath).ToLower() == ".mdb"
+                ? "Microsoft.Jet.OLEDB.4.0"
+                : "Microsoft.ACE.OLEDB.16.0";
+
+            string connectionString =
+                $@"Provider={provider};Data Source={dbPath};Persist Security Info=False;";
+
+            try
+            {
+                comboBox1.BeginUpdate();
+                comboBox1.Items.Clear();
+
+                using (OleDbConnection conn = new OleDbConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string query = "SELECT [نام قیر] FROM [Table4]";
+
+                    using (OleDbCommand cmd = new OleDbCommand(query, conn))
+                    using (OleDbDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader["نام قیر"] != DBNull.Value)
+                            {
+                                string bitumenName = reader["نام قیر"].ToString().Trim();
+
+                                if (!string.IsNullOrWhiteSpace(bitumenName))
+                                {
+                                    comboBox1.Items.Add(bitumenName);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                comboBox1.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("خطا در خواندن نام قیرها: " + ex.Message);
+            }
+            finally
+            {
+                comboBox1.EndUpdate();
+            }
+        }
+
         private void SetupComboBox(ComboBox comboBox)
         {
             comboBox.ForeColor = Color.Black;
@@ -174,9 +233,11 @@ namespace afshin
             SetupComboBox(comboBox5);
             SetupComboBox(comboBox4);
             SetupComboBox(comboBox6);
+            SetupComboBox(comboBox1);
 
             LoadGovernmentOrganizationsIntoComboBox5();
             LoadCustomerNamesIntoComboBox();
+            LoadBitumenNamesIntoComboBox1();
 
         }
     }
