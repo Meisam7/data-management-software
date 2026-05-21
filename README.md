@@ -1,29 +1,276 @@
-# Customer & Delivery Management Windows App
+# Data Management Software
 
-A Windows desktop application developed with **C# WinForms** for managing customers, delivery records, invoices, and companies/organizations that purchased goods.
+A Windows desktop application built with **C# WinForms** for managing delivery records, customers, contract organizations, and bitumen-related sales/dispatch data using a local **Microsoft Access** database.
 
-This project is designed to help store, view, search, add, edit, and export business records using a local Microsoft Access database.
+The application is designed for small business/internal office use where users need to manage customer records, government/contract-party organizations, delivery notes, invoice information, and remaining balances in one simple Windows interface.
 
 ---
+
 ## 📸 Screenshots
+
+Add your screenshots to a folder named `screenshots/` in the root of the repository, then update the image paths if needed.
 
 ### Main Window
 
 ![Main Window](screenshots/main-window.png)
 
-## 📌 Project Description
+### Add / Edit Delivery Record Form
 
-This application is a Windows-based management system for handling business data related to:
+![Record Form](screenshots/record-form.png)
 
-- Customers
-- Customer codes
-- Delivery notes / Havale records
-- Sold goods
-- Contracted companies or organizations
+### Database Settings Form
+
+![Database Settings](screenshots/database-settings.png)
+
+### Contract Party Form
+
+![Contract Party Form](screenshots/contract-party-form.png)
+
+### Customer Information Form
+
+![Customer Information Form](screenshots/customer-info-form.png)
+
+---
+
+## 📌 Main Features
+
+### Delivery / Havale Management
+
+The main part of the application is used to manage delivery records stored in `Table1`.
+
+Supported fields include:
+
+- Contract organization / government agency
+- Province
+- Credit year
+- Request ID
+- Delivery ID
+- Delivery number
+- Delivery date
+- Customer name
+- Bitumen type
+- Receiver
+- Delivery amount
+- Invoice amount
+- VAT-included unit price
+- Sent amount
+- Purchased amount
+- Final amount
+- Remaining delivery balance
+- Remaining invoice balance
+- Description
+
+Users can:
+
+- Add new delivery records
+- Edit existing records
+- Double-click a row in the main table to open the record in edit mode
+- Update records directly in the database
+- Delete selected records from `Table1` using the keyboard `Delete` key with confirmation
+
+---
+
+### Customer Management
+
+The application includes a customer management form for storing customer information in `Table2`.
+
+Supported customer fields:
+
+- Customer code
+- Customer name
+
+Users can add, edit, delete, and reuse customer names inside the delivery record form.
+
+---
+
+### Contract Organization Management
+
+The application includes a form for managing contract organizations or government agencies stored in `Table3`.
+
+Supported field:
+
+- Organization / agency name
+
+These organization names can be loaded into ComboBoxes inside the record form.
+
+---
+
+### Bitumen Type Selection
+
+The application can load bitumen names from `Table4`.
+
+Supported field:
+
+- Bitumen name
+
+These values are used in the record form for selecting the bitumen type.
+
+---
+
+### Search and Filtering
+
+The main form includes search/filter input fields for finding records based on fields such as:
+
+- Province
+- Contract organization
+- Delivery number
+- Delivery date range
+- Customer name
+- Receiver
+- Delivery amount
 - Invoice status
-- Provinces and delivery destinations
 
-The application uses a graphical Windows Forms interface and connects to a Microsoft Access database file (`.accdb` or `.mdb`) through `OleDb`.
+---
+
+### Selected Cell Sum
+
+The main window includes a bottom status label that calculates the sum of selected numeric cells in the `DataGridView`.
+
+This is useful for quickly checking totals without exporting the data.
+
+---
+
+### CSV Export
+
+The application supports exporting visible `DataGridView` data to a `.csv` file.
+
+The CSV export uses **UTF-8 with BOM**, which helps Persian text display correctly in tools like Microsoft Excel.
+
+---
+
+## 🧩 Forms
+
+### `MainForm`
+
+The main application window.
+
+Responsibilities:
+
+- Load database tables into `DataGridView`
+- Display delivery, customer, and contract-party data
+- Search/filter records
+- Calculate selected numeric cell totals
+- Export data to CSV
+- Open add/edit forms
+- Handle double-click editing for `Table1`
+- Handle delete key record deletion for `Table1`
+
+---
+
+### `RecordInfoForm` / `Form2`
+
+The delivery record form.
+
+Used for both:
+
+- Adding new records
+- Editing existing records
+
+Behavior:
+
+- In add mode, the **Add** button is active and the **Update** button is disabled.
+- In edit mode, the **Update** button is active and the **Add** button is disabled.
+- When opened from a double-click on a `Table1` row, the selected record fields are loaded into the form.
+
+---
+
+### `ClienInfoForm`
+
+The customer information form.
+
+Used for adding, editing, and deleting customers.
+
+---
+
+### `ContractParty`
+
+The contract organization form.
+
+Used for adding government agencies / contract organizations.
+
+---
+
+### `DBInfoForm`
+
+The database settings form.
+
+Used for selecting the Microsoft Access database file and saving the last selected path in application settings.
+
+---
+
+## 🗃️ Database Structure
+
+The application uses a local Microsoft Access database file:
+
+```text
+.accdb / .mdb
+```
+
+### `Table1` — Delivery / Havale Records
+
+| Field | Description |
+|---|---|
+| ردیف | AutoNumber primary key |
+| دستگاه طرف قرارداد | Contract organization / government agency |
+| استان | Province |
+| سال اعتبارات | Credit year |
+| شناسه حواله | Delivery ID |
+| شناسه درخواست | Request ID |
+| معاونت | Department / deputy |
+| شماره حواله | Delivery number |
+| تاریخ حواله | Delivery date |
+| نام مشتری | Customer name |
+| نوع قیر | Bitumen type |
+| گیرنده | Receiver |
+| مبلغ حواله | Delivery value |
+| مقدار حواله | Delivery amount |
+| فی (با ارزش افزوده) | VAT-included unit price |
+| ارسال | Sent amount |
+| خرید | Purchased amount |
+| مقدار نهایی | Final amount |
+| پیمانکار حمل | Transport contractor |
+| مبلغ فاکتور | Invoice amount |
+| مانده حواله | Remaining delivery balance |
+| مانده فاکتور | Remaining invoice balance |
+| توضیحات | Description |
+
+---
+
+### `Table2` — Customers
+
+| Field | Description |
+|---|---|
+| ردیف | AutoNumber primary key |
+| کد مشتری | Customer code |
+| نام مشتری | Customer name |
+
+---
+
+### `Table3` — Contract Organizations
+
+| Field | Description |
+|---|---|
+| ردیف | AutoNumber primary key |
+| نام دستگاه | Government agency / contract organization name |
+
+---
+
+### `Table4` — Bitumen Types
+
+| Field | Description |
+|---|---|
+| ردیف | AutoNumber primary key |
+| نام قیر | Bitumen name |
+
+---
+
+## 🧮 Automatic Calculations
+
+The application calculates the remaining delivery balance using this formula:
+
+```text
+مانده حواله = مقدار نهایی - (ارسال + خرید + مقدار تهاتر)
+```
 
 ---
 
@@ -33,248 +280,129 @@ The application uses a graphical Windows Forms interface and connects to a Micro
 - Windows Forms / WinForms
 - .NET Framework
 - Microsoft Access Database
-- OleDb Connection
+- OleDb
 - DataGridView
-- CSV Export
+- CSV export
+- Visual Studio
 
 ---
 
-## 🗂️ Main Features
+## ⚙️ Requirements
 
-### Customer Management
+To run the application, the target system needs:
 
-The application allows the user to manage customer information, including:
+- Windows OS
+- .NET Framework compatible with the project
+- Microsoft Access Database Engine / OLEDB Provider
 
-- Add new customers
-- Edit existing customer information
-- Store customer code
-- Store customer name
-- Display customer list in a table
+For `.accdb` files, the application uses:
 
-Example customer fields:
+```text
+Microsoft.ACE.OLEDB.16.0
+```
 
-- Customer Code
-- Customer Name
+If the application cannot connect to the database, install:
 
----
+```text
+Microsoft Access Database Engine 2016 Redistributable
+```
 
-### Delivery / Havale Management
+Important:
 
-The application can manage delivery and sales records such as:
+```text
+The application platform target and the Access Database Engine architecture must match.
 
-- Delivery number
-- Customer name
-- Contracted company
-- Province
-- Delivery location
-- Delivery amount
-- Invoice status
-
-These records are displayed in the main `DataGridView`.
+x64 application  →  64-bit Access Database Engine
+x86 application  →  32-bit Access Database Engine
+```
 
 ---
 
-### Database Management
+## 🚀 How to Run
 
-The application stores data in a Microsoft Access database.
-
-Supported database formats:
-
-- `.accdb`
-- `.mdb`
-
-The last selected database path is saved in application settings, so the program can automatically load the database when it starts again.
+1. Clone the repository.
+2. Run the application.
+3. Select the Access database file from the database settings form.
+4. Load the required table from the menu.
+5. Add, edit, search, delete, or export records.
 
 ---
 
-### Search and Filter
+## 🧪 Typical Workflow
 
-The user can search and filter records based on different fields, such as:
-
-- Customer name
-- Customer code
-- Delivery number
-- Province
-- Contracted company
-- Delivery destination
-- Invoice status
-- Delivery amount
-
-This makes it easier to find specific records inside large tables.
+1. Open the application.
+2. Select the database file.
+3. Add customers from the customer form.
+4. Add contract organizations from the contract-party form.
+5. Add bitumen types to the database.
+6. Open the delivery record form and create a new record.
+7. Load `Table1` in the main grid.
+8. Double-click a record ID to edit it.
+9. Select full rows and press `Delete` to remove records after confirmation.
+10. Select numeric cells to calculate their sum at the bottom of the main window.
 
 ---
 
-### Data Export
+## 📤 Exporting Data
 
-The application supports exporting the displayed table data to a `.csv` file.
+The application can export the current `DataGridView` content to CSV.
 
-The exported file can be opened with:
+Exported files can be opened with:
 
 - Microsoft Excel
 - Google Sheets
 - LibreOffice Calc
 - Any text editor
 
-The CSV export uses UTF-8 encoding to support Persian text correctly.
+---
+
+## 📁 Suggested Repository Structure
+
+```text
+DataManagementSoftware/
+│
+├── README.md
+├── afshin.sln
+├── afshin/
+│   ├── MainForm.cs
+│   ├── RecordInfoForm.cs
+│   ├── ClienInfoForm.cs
+│   ├── ContractParty.cs
+│   ├── DBInfoForm.cs
+│   ├── Class1.cs
+│   └── Program.cs
+│
+└── screenshots/
+    ├── main-window.png
+    ├── record-form.png
+    ├── database-settings.png
+    ├── contract-party-form.png
+    └── customer-info-form.png
+```
 
 ---
 
-### Selected Cell Sum
+## 🔮 Future Improvements
 
-The application can calculate the sum of selected numeric cells in the table.
-
-This is useful when the user wants to quickly calculate totals from selected rows or columns.
-
-Displayed information includes:
-
-- Sum of selected numbers
-- Count of selected numeric cells
-
----
-
-## 🧩 Main Forms
-
-### MainForm
-
-The main form of the application.
-
-Responsibilities:
-
-- Loading database tables
-- Showing data in `DataGridView`
-- Searching and filtering records
-- Exporting data to CSV
-- Showing selected numeric sum
-- Opening other forms
-
----
-
-### DBInfoForm
-
-Used for selecting or managing database information.
-
----
-
-### ClienInfoForm
-
-Used for managing customer information.
-
-Features:
-
-- Add customer
-- Edit customer
-- Save data to `Table2`
-- Refresh customer table after changes
-
----
-
-### RecordIfoForm
-
-Used for managing main delivery or sales records.
-
----
-
-## 🗃️ Database Tables
-
-### Table1
-
-Used for main delivery / sales records.
-
-Possible fields:
-
-- Delivery number
-- Customer name
-- Contracted company
-- Province
-- Delivery destination
-- Delivery amount
-- Invoice status
-
----
-
-### Table2
-
-Used for customer information.
-
-Fields:
-
-| Field Name | Description |
-|----------|-------------|
-| ردیف | Auto number / row ID |
-| کد مشتری | Customer code |
-| نام مشتری | Customer name |
-
----
-
-## ⚙️ How to Run
-
-1. Open the project in Visual Studio.
-2. Make sure Microsoft Access Database Engine is installed.
-3. Build the project.
-4. Run the application.
-5. Select or set the database file.
-6. Use the menu options to load tables and manage records.
-
----
-
-## 📤 Exporting Data
-
-To export data:
-
-1. Load the desired table.
-2. Click the export option.
-3. Choose a file location.
-4. Save the file as `.csv`.
-
-The exported file includes only visible columns.
-
----
-
-## 🔍 Searching Records
-
-The application includes several search boxes and filters.
-
-Examples:
-
-- Search by customer name
-- Search by delivery number
-- Filter by province
-- Search by invoice status
-- Search by delivery destination
-
----
-
-## ✅ Purpose of the Project
-
-The goal of this project is to create a simple and practical Windows application for small business record management.
-
-It helps users manage customers, delivery notes, sold goods, and related companies in one place without needing to work directly inside Microsoft Access.
-
----
-
-## 🚀 Future Improvements
-
-Possible future improvements:
-
-- Add login system
-- Add user roles
-- Improve UI design
-- Add backup and restore feature
-- Add PDF report generation
-- Add invoice printing
-- Add advanced search
-- Add delete confirmation logs
-- Add automatic database backup
-- Add charts and reports
-- Convert the database from Access to SQL Server
+- User login system
+- User roles and permissions
+- Advanced reporting
+- PDF invoice generation
+- Automatic database backup
+- Better UI/UX design
+- SQL Server support
+- Search result highlighting
+- More advanced financial reports
+- Safer delete logs / soft delete system
 
 ---
 
 ## 👨‍💻 Developer
 
-Developed with C# Windows Forms.
+Developed as a C# WinForms desktop application for managing customer, delivery, contract-party, and bitumen sales/dispatch records.
 
-Project type:
+---
 
-```text
-Windows Desktop Application
+## 📄 License
+
+This project is currently intended for personal, educational, or internal business use.
