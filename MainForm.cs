@@ -26,8 +26,12 @@ namespace afshin
         {
             InitializeComponent();
             dataGridView1.SelectionChanged += DataGridView1_SelectionChanged;
-
+            dataGridView1.KeyDown += dataGridView1_KeyDown;
             dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
+
+
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.RowHeaderSelect;
+            dataGridView1.MultiSelect = true;
         }
 
         private async void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -191,9 +195,111 @@ namespace afshin
                 DBInfoForm form3 = new DBInfoForm();
                 form3.ShowDialog();
             }
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.RowHeaderSelect;
+            dataGridView1.MultiSelect = true;
+        }
 
+        private async void dataGridView1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Delete)
+                return;
 
+            if (currentTable != "Table1")
+            {
+                MessageBox.Show("حذف فقط برای جدول حواله‌ها فعال است.");
+                e.Handled = true;
+                return;
+            }
 
+            // اگر کاربر فقط سلول انتخاب کرده، حذف رکورد انجام نشود
+            if (dataGridView1.SelectedRows.Count == 0)
+                return;
+
+            if (!dataGridView1.Columns.Contains("ردیف"))
+            {
+                MessageBox.Show("ستون ردیف پیدا نشد.");
+                return;
+            }
+
+            List<int> rowIds = new List<int>();
+
+            foreach (DataGridViewRow row in dataGridView1.SelectedRows)
+            {
+                if (row.IsNewRow)
+                    continue;
+
+                object rowIdObj = row.Cells["ردیف"].Value;
+
+                if (rowIdObj != null && rowIdObj != DBNull.Value)
+                {
+                    if (int.TryParse(rowIdObj.ToString(), out int rowId))
+                    {
+                        rowIds.Add(rowId);
+                    }
+                }
+            }
+
+            if (rowIds.Count == 0)
+            {
+                MessageBox.Show("هیچ ردیف معتبری برای حذف پیدا نشد.");
+                return;
+            }
+
+            DialogResult result = MessageBox.Show(
+                $"آیا مطمئن هستید که می‌خواهید {rowIds.Count} رکورد را حذف کنید؟",
+                "تأیید حذف",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (result != DialogResult.Yes)
+                return;
+
+            e.Handled = true;
+
+            string dbPath = Properties.Settings.Default.LastDBPath;
+
+            if (string.IsNullOrWhiteSpace(dbPath) || !File.Exists(dbPath))
+            {
+                MessageBox.Show("مسیر دیتابیس معتبر نیست.");
+                return;
+            }
+
+            string provider = Path.GetExtension(dbPath).ToLower() == ".mdb"
+                ? "Microsoft.Jet.OLEDB.4.0"
+                : "Microsoft.ACE.OLEDB.16.0";
+
+            string connectionString =
+                $@"Provider={provider};Data Source={dbPath};Persist Security Info=False;";
+
+            try
+            {
+                int deletedCount = 0;
+
+                using (OleDbConnection conn = new OleDbConnection(connectionString))
+                {
+                    conn.Open();
+
+                    foreach (int rowId in rowIds)
+                    {
+                        string query = "DELETE FROM [Table1] WHERE [ردیف] = ?";
+
+                        using (OleDbCommand cmd = new OleDbCommand(query, conn))
+                        {
+                            cmd.Parameters.AddWithValue("?", rowId);
+                            deletedCount += cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+
+                MessageBox.Show($"{deletedCount} رکورد با موفقیت حذف شد.");
+
+                await LoadTableToGridAsync("Table1");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("خطا در حذف رکوردها: " + ex.Message);
+            }
         }
 
         private void label2_Click(object sender, EventArgs e)

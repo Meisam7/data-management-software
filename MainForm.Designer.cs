@@ -41,8 +41,9 @@
             this.عملیاتاصلیToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.افزودنToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.نمایشToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.جدولاصلیToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.جدولحوالههاToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.جدولمشتریانToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.جدولاصلیToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -74,7 +75,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelSum = new System.Windows.Forms.ToolStripStatusLabel();
-            this.جدولحوالههاToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -197,19 +197,26 @@
             this.نمایشToolStripMenuItem.Size = new System.Drawing.Size(55, 28);
             this.نمایشToolStripMenuItem.Text = "نمایش";
             // 
+            // جدولحوالههاToolStripMenuItem
+            // 
+            this.جدولحوالههاToolStripMenuItem.Name = "جدولحوالههاToolStripMenuItem";
+            this.جدولحوالههاToolStripMenuItem.Size = new System.Drawing.Size(246, 28);
+            this.جدولحوالههاToolStripMenuItem.Text = "جدول حواله ها";
+            this.جدولحوالههاToolStripMenuItem.Click += new System.EventHandler(this.جدولحوالههاToolStripMenuItem_Click);
+            // 
+            // جدولمشتریانToolStripMenuItem
+            // 
+            this.جدولمشتریانToolStripMenuItem.Name = "جدولمشتریانToolStripMenuItem";
+            this.جدولمشتریانToolStripMenuItem.Size = new System.Drawing.Size(246, 28);
+            this.جدولمشتریانToolStripMenuItem.Text = "جدول مشتریان";
+            this.جدولمشتریانToolStripMenuItem.Click += new System.EventHandler(this.جدولمشتریانToolStripMenuItem_Click);
+            // 
             // جدولاصلیToolStripMenuItem
             // 
             this.جدولاصلیToolStripMenuItem.Name = "جدولاصلیToolStripMenuItem";
             this.جدولاصلیToolStripMenuItem.Size = new System.Drawing.Size(246, 28);
             this.جدولاصلیToolStripMenuItem.Text = "جدول دستگاه های طرف قرارداد";
             this.جدولاصلیToolStripMenuItem.Click += new System.EventHandler(this.جدولاصلیToolStripMenuItem_Click);
-            // 
-            // جدولمشتریانToolStripMenuItem
-            // 
-            this.جدولمشتریانToolStripMenuItem.Name = "جدولمشتریانToolStripMenuItem";
-            this.جدولمشتریانToolStripMenuItem.Size = new System.Drawing.Size(180, 28);
-            this.جدولمشتریانToolStripMenuItem.Text = "جدول مشتریان";
-            this.جدولمشتریانToolStripMenuItem.Click += new System.EventHandler(this.جدولمشتریانToolStripMenuItem_Click);
             // 
             // dataGridView1
             // 
@@ -635,13 +642,6 @@
             this.toolStripStatusLabelSum.Name = "toolStripStatusLabelSum";
             this.toolStripStatusLabelSum.Size = new System.Drawing.Size(51, 20);
             this.toolStripStatusLabelSum.Text = "جمع: 0";
-            // 
-            // جدولحوالههاToolStripMenuItem
-            // 
-            this.جدولحوالههاToolStripMenuItem.Name = "جدولحوالههاToolStripMenuItem";
-            this.جدولحوالههاToolStripMenuItem.Size = new System.Drawing.Size(246, 28);
-            this.جدولحوالههاToolStripMenuItem.Text = "جدول حواله ها";
-            this.جدولحوالههاToolStripMenuItem.Click += new System.EventHandler(this.جدولحوالههاToolStripMenuItem_Click);
             // 
             // MainForm
             // 
