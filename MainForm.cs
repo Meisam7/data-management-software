@@ -26,6 +26,85 @@ namespace afshin
         {
             InitializeComponent();
             dataGridView1.SelectionChanged += DataGridView1_SelectionChanged;
+
+            dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
+        }
+
+        private async void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
+
+            if (currentTable != "Table1")
+                return;
+
+            string clickedColumnHeader = dataGridView1.Columns[e.ColumnIndex].HeaderText;
+            string clickedColumnName = dataGridView1.Columns[e.ColumnIndex].Name;
+
+            if (clickedColumnHeader != "ردیف" && clickedColumnName != "ردیف")
+                return;
+
+            object rowIdObj = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+
+            if (rowIdObj == null || rowIdObj == DBNull.Value)
+            {
+                MessageBox.Show("شماره ردیف معتبر نیست.");
+                return;
+            }
+
+            if (!int.TryParse(rowIdObj.ToString(), out int rowId))
+            {
+                MessageBox.Show("شماره ردیف معتبر نیست.");
+                return;
+            }
+
+            Form2 editForm = new Form2(rowId);
+
+            if (editForm.ShowDialog() == DialogResult.OK)
+            {
+                // بعد از بروزرسانی، دوباره Table1 را نمایش بده
+                await LoadTableToGridAsync("Table1");
+            }
+        }
+
+        private async Task LoadTableToGridAsync(string tableName)
+        {
+            dataGridView1.DataSource = null;
+            dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Clear();
+
+            string dbPath = Properties.Settings.Default.LastDBPath;
+
+            if (string.IsNullOrWhiteSpace(dbPath) || !File.Exists(dbPath))
+            {
+                MessageBox.Show("مسیر دیتابیس معتبر نیست.");
+                return;
+            }
+
+            string provider = Path.GetExtension(dbPath).ToLower() == ".mdb"
+                ? "Microsoft.Jet.OLEDB.4.0"
+                : "Microsoft.ACE.OLEDB.16.0";
+
+            string connectionString =
+                $@"Provider={provider};Data Source={dbPath};Persist Security Info=False;";
+
+            DataTable dt = await Task.Run(() =>
+            {
+                DataTable table = new DataTable();
+
+                using (OleDbConnection conn = new OleDbConnection(connectionString))
+                using (OleDbDataAdapter da = new OleDbDataAdapter($"SELECT * FROM [{tableName}]", conn))
+                {
+                    da.Fill(table);
+                }
+
+                return table;
+            });
+
+            dataGridView1.AutoGenerateColumns = true;
+            dataGridView1.DataSource = dt;
+
+            currentTable = tableName;
         }
         private void DataGridView1_SelectionChanged(object sender, EventArgs e)
         {
@@ -569,7 +648,7 @@ namespace afshin
                 await Task.Run(() => Class1.LoadTableIntoGrid(dataGridView1, "Table1"));
 
                 // Update the flag to track that Table2 is loaded
-                currentTable = "Table2";
+                currentTable = "Table1";
             }
             catch (Exception ex)
             {

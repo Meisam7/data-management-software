@@ -17,6 +17,7 @@ namespace afshin
         public Form2()
         {
             InitializeComponent();
+            editingRowId = null;
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -253,6 +254,13 @@ namespace afshin
             {
                 MessageBox.Show("خطا در افزودن رکورد: " + ex.Message);
             }
+        }
+        private int? editingRowId = null;
+
+        public Form2(int rowId)
+        {
+            InitializeComponent();
+            editingRowId = rowId;
         }
         private int? ToNullableInt(string text)
         {
@@ -497,7 +505,325 @@ namespace afshin
             LoadGovernmentOrganizationsIntoComboBox5();
             LoadCustomerNamesIntoComboBox();
             LoadBitumenNamesIntoComboBox1();
+            //------------------------------------------------------
+            if (editingRowId.HasValue)
+            {
+                // Edit Mode
+                button1.Enabled = false;   // افزودن غیرفعال
+                button2.Enabled = true;    // بروزرسانی فعال
+                LoadRecordForEdit(editingRowId.Value);
+            }
+            else
+            {
+                // Add Mode
+                button1.Enabled = true;    // افزودن فعال
+                button2.Enabled = false;   // بروزرسانی غیرفعال
+            }
 
+        }
+
+        private void LoadRecordForEdit(int rowId)
+        {
+            string dbPath = Properties.Settings.Default.LastDBPath;
+
+            if (string.IsNullOrWhiteSpace(dbPath) || !File.Exists(dbPath))
+            {
+                MessageBox.Show("مسیر دیتابیس معتبر نیست.");
+                return;
+            }
+
+            string provider = Path.GetExtension(dbPath).ToLower() == ".mdb"
+                ? "Microsoft.Jet.OLEDB.4.0"
+                : "Microsoft.ACE.OLEDB.16.0";
+
+            string connectionString =
+                $@"Provider={provider};Data Source={dbPath};Persist Security Info=False;";
+
+            try
+            {
+                using (OleDbConnection conn = new OleDbConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string query = "SELECT * FROM [Table1] WHERE [ردیف] = ?";
+
+                    using (OleDbCommand cmd = new OleDbCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("?", rowId);
+
+                        using (OleDbDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                comboBox5.Text = reader["دستگاه طرف قرارداد"].ToString();
+                                comboBox2.Text = reader["استان"].ToString();
+                                textBox1.Text = reader["سال اعتبارات"].ToString();
+                                textBox5.Text = reader["شناسه حواله"].ToString();
+                                textBox4.Text = reader["شناسه درخواست"].ToString();
+                                textBox6.Text = reader["معاونت"].ToString();
+                                textBox11.Text = reader["شماره حواله"].ToString();
+                                textBox10.Text = reader["تاریخ حواله"].ToString();
+                                comboBox6.Text = reader["نام مشتری"].ToString();
+                                comboBox1.Text = reader["نوع قیر"].ToString();
+                                comboBox4.Text = reader["گیرنده"].ToString();
+                                textBox15.Text = reader["مبلغ حواله"].ToString();
+                                textBox7.Text = reader["مقدار حواله"].ToString();
+                                textBox12.Text = reader["فی (با ارزش افزوده)"].ToString();
+                                textBox3.Text = reader["ارسال"].ToString();
+                                textBox21.Text = reader["خرید"].ToString();
+                                textBox8.Text = reader["مقدار نهایی"].ToString();
+                                textBox22.Text = reader["پیمانکار حمل"].ToString();
+                                textBox13.Text = reader["مبلغ فاکتور"].ToString();
+                                textBox19.Text = reader["مانده حواله"].ToString();
+                                textBox16.Text = reader["مانده فاکتور"].ToString();
+                                textBox2.Text = reader["توضیحات"].ToString();
+                            }
+                            else
+                            {
+                                MessageBox.Show("رکورد مورد نظر پیدا نشد.");
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("خطا در خواندن رکورد: " + ex.Message);
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+            if (!editingRowId.HasValue)
+            {
+                MessageBox.Show("هیچ رکوردی برای ویرایش انتخاب نشده است.");
+                return;
+            }
+
+            string requestId = textBox4.Text.Trim();
+            string contractParty = comboBox5.Text.Trim();
+            string province = comboBox2.Text.Trim();
+            string havaleId = textBox5.Text.Trim();
+            string assistantName = textBox6.Text.Trim();
+            string havaleNumberText = textBox11.Text.Trim();
+            string havaleDate = textBox10.Text.Trim();
+            string customerName = comboBox6.Text.Trim();
+            string bitumenType = comboBox1.Text.Trim();
+            string receiver = comboBox4.Text.Trim();
+            string havalePriceText = textBox15.Text.Trim();
+            string allocationYearText = textBox1.Text.Trim();
+            string havaleAmountText = textBox7.Text.Trim();
+            string taxPriceText = textBox12.Text.Trim();
+            string sendAmountText = textBox3.Text.Trim();
+            string buyAmountText = textBox21.Text.Trim();
+            string finalAmountText = textBox8.Text.Trim();
+            string carrierName = textBox22.Text.Trim();
+            string invoiceAmountText = textBox13.Text.Trim();
+            string remainingInvoice = textBox16.Text.Trim();
+            string description = textBox2.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(contractParty))
+            {
+                MessageBox.Show("لطفاً نام دستگاه را وارد کنید.");
+                comboBox5.Focus();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(province))
+            {
+                MessageBox.Show("لطفاً استان را وارد کنید.");
+                comboBox2.Focus();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(havaleNumberText))
+            {
+                MessageBox.Show("لطفاً شماره حواله را وارد کنید.");
+                textBox11.Focus();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(havaleDate))
+            {
+                MessageBox.Show("لطفاً تاریخ حواله را وارد کنید.");
+                textBox10.Focus();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(customerName))
+            {
+                MessageBox.Show("لطفاً نام مشتری را وارد کنید.");
+                comboBox6.Focus();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(bitumenType))
+            {
+                MessageBox.Show("لطفاً نوع قیر را وارد کنید.");
+                comboBox1.Focus();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(receiver))
+            {
+                MessageBox.Show("لطفاً گیرنده را وارد کنید.");
+                comboBox4.Focus();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(havaleAmountText))
+            {
+                MessageBox.Show("لطفاً مقدار حواله را وارد کنید.");
+                textBox7.Focus();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(allocationYearText))
+            {
+                MessageBox.Show("لطفاً سال اعتبارات را وارد کنید.");
+                textBox1.Focus();
+                return;
+            }
+
+            int? requestIdValue = ToNullableInt(requestId);
+            int? havaleIdValue = ToNullableInt(havaleId);
+            int? havaleNumberValue = ToNullableInt(havaleNumberText);
+            int? allocationYearValue = ToNullableInt(allocationYearText);
+
+            decimal? havalePriceValue = ToNullableDecimal(havalePriceText);
+            decimal? havaleAmountValue = ToNullableDecimal(havaleAmountText);
+            decimal? taxPriceValue = ToNullableDecimal(taxPriceText);
+            decimal? sendAmountValue = ToNullableDecimal(sendAmountText);
+            decimal? buyAmountValue = ToNullableDecimal(buyAmountText);
+            decimal? finalAmountValue = ToNullableDecimal(finalAmountText);
+            decimal? invoiceAmountValue = ToNullableDecimal(invoiceAmountText);
+
+            if (havaleNumberValue == null)
+            {
+                MessageBox.Show("شماره حواله باید عدد باشد.");
+                textBox11.Focus();
+                return;
+            }
+
+            if (havaleAmountValue == null)
+            {
+                MessageBox.Show("مقدار حواله باید عدد باشد.");
+                textBox7.Focus();
+                return;
+            }
+
+            if (allocationYearValue == null)
+            {
+                MessageBox.Show("سال اعتبارات باید عدد باشد.");
+                textBox1.Focus();
+                return;
+            }
+
+            // فعلاً مقدار تهاتر را صفر گرفتم.
+            // اگر TextBox مقدار تهاتر داری، این خط را با TextBox واقعی عوض کن.
+            decimal? tahatorAmountValue = 0;
+
+            decimal remainingHavaleValue =
+                (finalAmountValue ?? 0)
+                - ((sendAmountValue ?? 0) + (buyAmountValue ?? 0) + (tahatorAmountValue ?? 0));
+
+            textBox19.Text = remainingHavaleValue.ToString();
+
+            string dbPath = Properties.Settings.Default.LastDBPath;
+
+            if (string.IsNullOrWhiteSpace(dbPath) || !File.Exists(dbPath))
+            {
+                MessageBox.Show("مسیر دیتابیس معتبر نیست.");
+                return;
+            }
+
+            string provider = Path.GetExtension(dbPath).ToLower() == ".mdb"
+                ? "Microsoft.Jet.OLEDB.4.0"
+                : "Microsoft.ACE.OLEDB.16.0";
+
+            string connectionString =
+                $@"Provider={provider};Data Source={dbPath};Persist Security Info=False;";
+
+            try
+            {
+                using (OleDbConnection conn = new OleDbConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string query = @"
+                UPDATE [Table1]
+                SET
+                    [دستگاه طرف قرارداد] = ?,
+                    [استان] = ?,
+                    [سال اعتبارات] = ?,
+                    [شناسه حواله] = ?,
+                    [شناسه درخواست] = ?,
+                    [معاونت] = ?,
+                    [شماره حواله] = ?,
+                    [تاریخ حواله] = ?,
+                    [نام مشتری] = ?,
+                    [نوع قیر] = ?,
+                    [گیرنده] = ?,
+                    [مبلغ حواله] = ?,
+                    [مقدار حواله] = ?,
+                    [فی (با ارزش افزوده)] = ?,
+                    [ارسال] = ?,
+                    [خرید] = ?,
+                    [مقدار نهایی] = ?,
+                    [پیمانکار حمل] = ?,
+                    [مبلغ فاکتور] = ?,
+                    [مانده حواله] = ?,
+                    [مانده فاکتور] = ?,
+                    [توضیحات] = ?
+                WHERE [ردیف] = ?";
+
+                    using (OleDbCommand cmd = new OleDbCommand(query, conn))
+                    {
+                        AddParam(cmd, contractParty);
+                        AddParam(cmd, province);
+                        AddParam(cmd, allocationYearValue);
+                        AddParam(cmd, havaleIdValue);
+                        AddParam(cmd, requestIdValue);
+                        AddParam(cmd, assistantName);
+                        AddParam(cmd, havaleNumberValue);
+                        AddParam(cmd, havaleDate);
+                        AddParam(cmd, customerName);
+                        AddParam(cmd, bitumenType);
+                        AddParam(cmd, receiver);
+                        AddParam(cmd, havalePriceValue);
+                        AddParam(cmd, havaleAmountValue);
+                        AddParam(cmd, taxPriceValue);
+                        AddParam(cmd, sendAmountValue);
+                        AddParam(cmd, buyAmountValue);
+                        AddParam(cmd, finalAmountValue);
+                        AddParam(cmd, carrierName);
+                        AddParam(cmd, invoiceAmountValue);
+                        AddParam(cmd, remainingHavaleValue);
+                        AddParam(cmd, remainingInvoice);
+                        AddParam(cmd, description);
+
+                        AddParam(cmd, editingRowId.Value);
+
+                        int result = cmd.ExecuteNonQuery();
+
+                        if (result > 0)
+                        {
+                            MessageBox.Show("رکورد با موفقیت بروزرسانی شد.");
+                            this.DialogResult = DialogResult.OK;
+                            this.Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("هیچ رکوردی بروزرسانی نشد.");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("خطا در بروزرسانی رکورد: " + ex.Message);
+            }
         }
     }
 }
