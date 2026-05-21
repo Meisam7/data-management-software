@@ -523,6 +523,7 @@
             this.textBox19.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox19.Enabled = false;
             this.textBox19.Font = new System.Drawing.Font("B Nazanin", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.textBox19.Location = new System.Drawing.Point(407, 395);
             this.textBox19.Margin = new System.Windows.Forms.Padding(5);
@@ -620,7 +621,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(127, 45);
             this.button2.TabIndex = 72;
-            this.button2.Text = "ویرایش";
+            this.button2.Text = "بروزرسانی";
             this.button2.UseVisualStyleBackColor = true;
             // 
             // button3
