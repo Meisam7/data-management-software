@@ -157,46 +157,29 @@ namespace afshin
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(LastDBPath)&& File.Exists(LastDBPath))
-            {
-                try
-                {
-                    string dbPath = (LastDBPath ?? "").Trim('"', ' ');
-                    if (!File.Exists(dbPath)) { MessageBox.Show("File not found."); return; }
+            // شروع برنامه: هیچ جدولی نمایش داده نشود
+            dataGridView1.DataSource = null;
+            dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Clear();
 
-                    // x64: ACE 16.0 for .accdb; Jet for .mdb
-                    string provider = Path.GetExtension(dbPath).ToLower() == ".mdb"
-                                      ? "Microsoft.Jet.OLEDB.4.0"
-                                      : "Microsoft.ACE.OLEDB.16.0";
+            // شروع برنامه: هر دو بخش جستجو غیرفعال باشند
+            groupBox1.Enabled = false;
+            groupBox2.Enabled = false;
 
-                    var dt = new DataTable();
-                    using (var conn = new OleDbConnection($@"Provider={provider};Data Source={dbPath};Persist Security Info=False;"))
-                    using (var da = new OleDbDataAdapter(@"SELECT * FROM [Table2]", conn))
-                    {
-                        conn.Open();
-                        da.Fill(dt);
-                    }
+            currentTable = "";
 
-                    // Grab the already open MainForm and set the grid
-                    var main = Application.OpenForms["MainForm"] as MainForm;
-                    if (main != null)
-                    {
-                        main.dataGridView1.AutoGenerateColumns = true;
-                        main.dataGridView1.DataSource = dt;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex.Message);
-                }
-            }
-            else
+            toolStripStatusLabelSum.Text = "جمع: ۰   تعداد: ۰";
+
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.RowHeaderSelect;
+            dataGridView1.MultiSelect = true;
+
+            string dbPath = (Properties.Settings.Default.LastDBPath ?? "").Trim('"', ' ');
+
+            if (string.IsNullOrWhiteSpace(dbPath) || !File.Exists(dbPath))
             {
                 DBInfoForm form3 = new DBInfoForm();
                 form3.ShowDialog();
             }
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.RowHeaderSelect;
-            dataGridView1.MultiSelect = true;
         }
 
         private async void dataGridView1_KeyDown(object sender, KeyEventArgs e)
@@ -353,12 +336,10 @@ namespace afshin
         {
             try
             {
-                // Clear DataGridView before loading new data
                 dataGridView1.DataSource = null;
                 dataGridView1.Rows.Clear();
                 dataGridView1.Columns.Clear();
 
-                // Retrieve the path from settings and load the data
                 string dbPath = Properties.Settings.Default.LastDBPath;
 
                 if (string.IsNullOrEmpty(dbPath) || !File.Exists(dbPath))
@@ -367,14 +348,12 @@ namespace afshin
                     return;
                 }
 
-                // Set the database path in Class1
                 Class1.SetDatabasePath(dbPath);
 
-                // Disable GroupBox2 and enable groupbox1
-                groupBox2.Enabled = false;  // Disable GroupBox2
-                groupBox1.Enabled = true;  // Enable GroupBox1
+                // Table3 = دستگاه‌های طرف قرارداد
+                groupBox1.Enabled = false;
+                groupBox2.Enabled = false;
 
-                // Load Table1 asynchronously into the grid
                 await Task.Run(() => Class1.LoadTableIntoGrid(dataGridView1, "Table3"));
 
                 currentTable = "Table3";
@@ -389,12 +368,10 @@ namespace afshin
         {
             try
             {
-                // Clear DataGridView before loading new data
                 dataGridView1.DataSource = null;
                 dataGridView1.Rows.Clear();
                 dataGridView1.Columns.Clear();
 
-                // Retrieve the path from settings and load the data
                 string dbPath = Properties.Settings.Default.LastDBPath;
 
                 if (string.IsNullOrEmpty(dbPath) || !File.Exists(dbPath))
@@ -403,18 +380,14 @@ namespace afshin
                     return;
                 }
 
-                // Set the database path in Class1
                 Class1.SetDatabasePath(dbPath);
 
+                // Table2 = جدول مشتریان
+                groupBox1.Enabled = false;
+                groupBox2.Enabled = true;
 
-                // Disable GroupBox1 and enable groupbox2
-                groupBox1.Enabled = false;  // Disable GroupBox2
-                groupBox2.Enabled = true;  // Enable GroupBox1
-
-                // Load Table2 asynchronously into the grid
                 await Task.Run(() => Class1.LoadTableIntoGrid(dataGridView1, "Table2"));
 
-                // Update the flag to track that Table2 is loaded
                 currentTable = "Table2";
             }
             catch (Exception ex)
@@ -725,15 +698,12 @@ namespace afshin
 
         private async void جدولحوالههاToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             try
             {
-                // Clear DataGridView before loading new data
                 dataGridView1.DataSource = null;
                 dataGridView1.Rows.Clear();
                 dataGridView1.Columns.Clear();
 
-                // Retrieve the path from settings and load the data
                 string dbPath = Properties.Settings.Default.LastDBPath;
 
                 if (string.IsNullOrEmpty(dbPath) || !File.Exists(dbPath))
@@ -742,23 +712,38 @@ namespace afshin
                     return;
                 }
 
-                // Set the database path in Class1
                 Class1.SetDatabasePath(dbPath);
 
+                // Table1 = جدول حواله‌ها
+                groupBox1.Enabled = true;
+                groupBox2.Enabled = false;
 
-                // Disable GroupBox1 and enable groupbox2
-                groupBox1.Enabled = false;  // Disable GroupBox2
-                groupBox2.Enabled = true;  // Enable GroupBox1
-
-                // Load Table2 asynchronously into the grid
                 await Task.Run(() => Class1.LoadTableIntoGrid(dataGridView1, "Table1"));
 
-                // Update the flag to track that Table2 is loaded
                 currentTable = "Table1";
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void SetSearchBoxesForTable(string tableName)
+        {
+            if (tableName == "Table1")
+            {
+                groupBox1.Enabled = true;
+                groupBox2.Enabled = false;
+            }
+            else if (tableName == "Table2")
+            {
+                groupBox1.Enabled = false;
+                groupBox2.Enabled = true;
+            }
+            else
+            {
+                groupBox1.Enabled = false;
+                groupBox2.Enabled = false;
             }
         }
     }
