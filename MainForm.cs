@@ -157,12 +157,10 @@ namespace afshin
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // شروع برنامه: هیچ جدولی نمایش داده نشود
             dataGridView1.DataSource = null;
             dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
 
-            // شروع برنامه: هر دو بخش جستجو غیرفعال باشند
             groupBox1.Enabled = false;
             groupBox2.Enabled = false;
 
@@ -180,6 +178,8 @@ namespace afshin
                 DBInfoForm form3 = new DBInfoForm();
                 form3.ShowDialog();
             }
+
+            LoadContractPartiesIntoComboBox2();
         }
 
         private async void dataGridView1_KeyDown(object sender, KeyEventArgs e)
@@ -519,19 +519,24 @@ namespace afshin
         {
             
         }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Get the DataTable bound to the DataGridView
+            if (currentTable != "Table1")
+                return;
+
             if (dataGridView1.DataSource is DataTable dt)
             {
-                string filterText = textBox2.Text.Replace("'", "''"); // escape single quotes
+                string selectedValue = comboBox2.SelectedItem?.ToString();
 
-                // Apply filter on the column دستگاه طرف قرارداد
-                if (string.IsNullOrWhiteSpace(filterText))
-                    dt.DefaultView.RowFilter = ""; // show all rows
+                if (string.IsNullOrWhiteSpace(selectedValue) || selectedValue == "همه")
+                {
+                    dt.DefaultView.RowFilter = "";
+                }
                 else
-                    dt.DefaultView.RowFilter = $"[دستگاه طرف قرارداد] LIKE '%{filterText}%'";
+                {
+                    selectedValue = selectedValue.Replace("'", "''");
+                    dt.DefaultView.RowFilter = $"[دستگاه طرف قرارداد] = '{selectedValue}'";
+                }
             }
         }
 
@@ -550,14 +555,22 @@ namespace afshin
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (currentTable != "Table1")
+                return;
+
             if (dataGridView1.DataSource is DataTable dt)
             {
-                string selectedValue = comboBox1.SelectedItem?.ToString().Replace("'", "''");
+                string selectedProvince = comboBox1.SelectedItem?.ToString();
 
-                if (string.IsNullOrWhiteSpace(selectedValue))
-                    dt.DefaultView.RowFilter = ""; // Show all rows
+                if (string.IsNullOrWhiteSpace(selectedProvince) || selectedProvince == "همه")
+                {
+                    dt.DefaultView.RowFilter = "";
+                }
                 else
-                    dt.DefaultView.RowFilter = $"[استان] = '{selectedValue}'";
+                {
+                    selectedProvince = selectedProvince.Replace("'", "''");
+                    dt.DefaultView.RowFilter = $"[استان] = '{selectedProvince}'";
+                }
             }
         }
 
@@ -593,7 +606,7 @@ namespace afshin
                 if (string.IsNullOrWhiteSpace(search))
                     dt.DefaultView.RowFilter = ""; // Show all rows
                 else
-                    dt.DefaultView.RowFilter = $"[گیرنده(محل تخلیه)] LIKE '%{search}%'";
+                    dt.DefaultView.RowFilter = $"[گیرنده] LIKE '%{search}%'";
             }
         }
 
@@ -728,6 +741,58 @@ namespace afshin
             }
         }
 
+        private void LoadContractPartiesIntoComboBox2()
+        {
+            string dbPath = Properties.Settings.Default.LastDBPath;
+
+            if (string.IsNullOrWhiteSpace(dbPath) || !File.Exists(dbPath))
+                return;
+
+            string provider = Path.GetExtension(dbPath).ToLower() == ".mdb"
+                ? "Microsoft.Jet.OLEDB.4.0"
+                : "Microsoft.ACE.OLEDB.16.0";
+
+            string connectionString =
+                $@"Provider={provider};Data Source={dbPath};Persist Security Info=False;";
+
+            try
+            {
+                comboBox2.Items.Clear();
+
+                // گزینه اول یعنی همه رکوردها
+                comboBox2.Items.Add("همه");
+
+                using (OleDbConnection conn = new OleDbConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string query = "SELECT [نام دستگاه] FROM [Table3] ORDER BY [نام دستگاه]";
+
+                    using (OleDbCommand cmd = new OleDbCommand(query, conn))
+                    using (OleDbDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader["نام دستگاه"] != DBNull.Value)
+                            {
+                                string name = reader["نام دستگاه"].ToString().Trim();
+
+                                if (!string.IsNullOrWhiteSpace(name))
+                                {
+                                    comboBox2.Items.Add(name);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                comboBox2.SelectedIndex = 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("خطا در خواندن دستگاه‌های طرف قرارداد: " + ex.Message);
+            }
+        }
         private void SetSearchBoxesForTable(string tableName)
         {
             if (tableName == "Table1")
@@ -745,6 +810,11 @@ namespace afshin
                 groupBox1.Enabled = false;
                 groupBox2.Enabled = false;
             }
+        }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
