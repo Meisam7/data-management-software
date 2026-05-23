@@ -58,7 +58,6 @@
             this.label16 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.textBox22 = new System.Windows.Forms.TextBox();
-            this.textBox16 = new System.Windows.Forms.TextBox();
             this.textBox19 = new System.Windows.Forms.TextBox();
             this.textBox20 = new System.Windows.Forms.TextBox();
             this.label27 = new System.Windows.Forms.Label();
@@ -77,6 +76,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.comboBox6 = new System.Windows.Forms.ComboBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // comboBox2
@@ -506,18 +506,6 @@
             this.textBox22.Size = new System.Drawing.Size(225, 31);
             this.textBox22.TabIndex = 70;
             // 
-            // textBox16
-            // 
-            this.textBox16.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox16.Font = new System.Drawing.Font("B Nazanin", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.textBox16.Location = new System.Drawing.Point(407, 431);
-            this.textBox16.Margin = new System.Windows.Forms.Padding(5);
-            this.textBox16.Name = "textBox16";
-            this.textBox16.Size = new System.Drawing.Size(227, 31);
-            this.textBox16.TabIndex = 69;
-            // 
             // textBox19
             // 
             this.textBox19.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -564,12 +552,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label20.AutoSize = true;
             this.label20.Font = new System.Drawing.Font("B Nazanin", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.label20.Location = new System.Drawing.Point(680, 433);
+            this.label20.Location = new System.Drawing.Point(668, 433);
             this.label20.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(85, 26);
+            this.label20.Size = new System.Drawing.Size(97, 26);
             this.label20.TabIndex = 63;
-            this.label20.Text = "مانده فاکتور :";
+            this.label20.Text = "وضعیت فاکتور :";
             // 
             // label24
             // 
@@ -756,12 +744,30 @@
             this.textBox3.Size = new System.Drawing.Size(225, 31);
             this.textBox3.TabIndex = 82;
             // 
+            // comboBox3
+            // 
+            this.comboBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox3.Font = new System.Drawing.Font("B Nazanin", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
+            this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Items.AddRange(new object[] {
+            "صادر شده",
+            "صادر نشده"});
+            this.comboBox3.Location = new System.Drawing.Point(407, 431);
+            this.comboBox3.Margin = new System.Windows.Forms.Padding(5);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(227, 32);
+            this.comboBox3.TabIndex = 83;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(771, 551);
             this.ControlBox = false;
+            this.Controls.Add(this.comboBox3);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.comboBox6);
             this.Controls.Add(this.textBox2);
@@ -775,7 +781,6 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox22);
-            this.Controls.Add(this.textBox16);
             this.Controls.Add(this.textBox19);
             this.Controls.Add(this.textBox20);
             this.Controls.Add(this.label27);
@@ -856,7 +861,6 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.TextBox textBox22;
-        private System.Windows.Forms.TextBox textBox16;
         private System.Windows.Forms.TextBox textBox19;
         private System.Windows.Forms.TextBox textBox20;
         private System.Windows.Forms.Label label27;
@@ -875,5 +879,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBox6;
         private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.ComboBox comboBox3;
     }
 }

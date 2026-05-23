@@ -47,7 +47,7 @@ namespace afshin
             string carrierName = textBox22.Text.Trim();           // پیمانکار حمل
             string invoiceAmountText = textBox13.Text.Trim();     // مبلغ فاکتور
             string remainingHavale = textBox19.Text.Trim();       // مانده حواله
-            string remainingInvoice = textBox16.Text.Trim();      // مانده فاکتور
+            string remainingInvoice = comboBox3.Text.Trim();      // وضعیت فاکتور
             string description = textBox2.Text.Trim();            // توضیحات
 
             // ===============================
@@ -211,7 +211,7 @@ namespace afshin
                     [پیمانکار حمل],
                     [مبلغ فاکتور],
                     [مانده حواله],
-                    [مانده فاکتور],
+                    [وضعیت فاکتور],
                     [توضیحات]
                 )
                 VALUES
@@ -241,7 +241,7 @@ namespace afshin
                         AddParam(cmd, carrierName);            // پیمانکار حمل
                         AddParam(cmd, invoiceAmountValue);     // مبلغ فاکتور
                         AddParam(cmd, remainingHavaleValue);        // مانده حواله
-                        AddParam(cmd, remainingInvoice);       // مانده فاکتور
+                        AddParam(cmd, remainingInvoice);       // وضعیت فاکتور
                         AddParam(cmd, description);            // توضیحات
 
                         cmd.ExecuteNonQuery();
@@ -575,7 +575,7 @@ namespace afshin
                                 textBox22.Text = reader["پیمانکار حمل"].ToString();
                                 textBox13.Text = reader["مبلغ فاکتور"].ToString();
                                 textBox19.Text = reader["مانده حواله"].ToString();
-                                textBox16.Text = reader["مانده فاکتور"].ToString();
+                                comboBox3.Text = reader["وضعیت فاکتور"].ToString();
                                 textBox2.Text = reader["توضیحات"].ToString();
                             }
                             else
@@ -620,7 +620,7 @@ namespace afshin
             string finalAmountText = textBox8.Text.Trim();
             string carrierName = textBox22.Text.Trim();
             string invoiceAmountText = textBox13.Text.Trim();
-            string remainingInvoice = textBox16.Text.Trim();
+            string remainingInvoice = comboBox3.Text.Trim();
             string description = textBox2.Text.Trim();
 
             if (string.IsNullOrWhiteSpace(contractParty))
@@ -774,7 +774,7 @@ namespace afshin
                     [پیمانکار حمل] = ?,
                     [مبلغ فاکتور] = ?,
                     [مانده حواله] = ?,
-                    [مانده فاکتور] = ?,
+                    [وضعیت فاکتور] = ?,
                     [توضیحات] = ?
                 WHERE [ردیف] = ?";
 
