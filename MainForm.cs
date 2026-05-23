@@ -180,6 +180,9 @@ namespace afshin
             }
 
             LoadContractPartiesIntoComboBox2();
+            LoadCustomerNamesIntoComboBox3();
+            LoadCustomerCodesIntoComboBox4();
+            LoadCustomerNamesIntoComboBox5();
         }
 
         private async void dataGridView1_KeyDown(object sender, KeyEventArgs e)
@@ -382,13 +385,32 @@ namespace afshin
 
                 Class1.SetDatabasePath(dbPath);
 
-                // Table2 = جدول مشتریان
                 groupBox1.Enabled = false;
                 groupBox2.Enabled = true;
 
                 await Task.Run(() => Class1.LoadTableIntoGrid(dataGridView1, "Table2"));
 
                 currentTable = "Table2";
+
+                if (comboBox3.Items.Contains("همه"))
+                {
+                    comboBox3.SelectedItem = "همه";
+                }
+                else
+                {
+                    comboBox3.Items.Insert(0, "همه");
+                    comboBox3.SelectedIndex = 0;
+                }
+
+                if (comboBox4.Items.Contains("همه"))
+                {
+                    comboBox4.SelectedItem = "همه";
+                }
+                else
+                {
+                    comboBox4.Items.Insert(0, "همه");
+                    comboBox4.SelectedIndex = 0;
+                }
             }
             catch (Exception ex)
             {
@@ -586,15 +608,7 @@ namespace afshin
 
         private void textBox9_TextChanged(object sender, EventArgs e)
         {
-            if (dataGridView1.DataSource is DataTable dt)
-            {
-                string search = textBox9.Text.Replace("'", "''");
 
-                if (string.IsNullOrWhiteSpace(search))
-                    dt.DefaultView.RowFilter = ""; // Show all rows
-                else
-                    dt.DefaultView.RowFilter = $"[نام مشتری] LIKE '%{search}%'";
-            }
         }
 
         private void textBox7_TextChanged(object sender, EventArgs e)
@@ -734,6 +748,16 @@ namespace afshin
                 await Task.Run(() => Class1.LoadTableIntoGrid(dataGridView1, "Table1"));
 
                 currentTable = "Table1";
+
+                if (comboBox5.Items.Contains("همه"))
+                {
+                    comboBox5.SelectedItem = "همه";
+                }
+                else
+                {
+                    comboBox5.Items.Insert(0, "همه");
+                    comboBox5.SelectedIndex = 0;
+                }
             }
             catch (Exception ex)
             {
@@ -812,9 +836,229 @@ namespace afshin
             }
         }
 
+        private void LoadCustomerNamesIntoComboBox3()
+        {
+            string dbPath = Properties.Settings.Default.LastDBPath;
+
+            if (string.IsNullOrWhiteSpace(dbPath) || !File.Exists(dbPath))
+                return;
+
+            string provider = Path.GetExtension(dbPath).ToLower() == ".mdb"
+                ? "Microsoft.Jet.OLEDB.4.0"
+                : "Microsoft.ACE.OLEDB.16.0";
+
+            string connectionString =
+                $@"Provider={provider};Data Source={dbPath};Persist Security Info=False;";
+
+            try
+            {
+                comboBox3.Items.Clear();
+
+                comboBox3.Items.Add("همه");
+
+                using (OleDbConnection conn = new OleDbConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string query = "SELECT [نام مشتری] FROM [Table2] ORDER BY [نام مشتری]";
+
+                    using (OleDbCommand cmd = new OleDbCommand(query, conn))
+                    using (OleDbDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader["نام مشتری"] != DBNull.Value)
+                            {
+                                string customerName = reader["نام مشتری"].ToString().Trim();
+
+                                if (!string.IsNullOrWhiteSpace(customerName))
+                                {
+                                    comboBox3.Items.Add(customerName);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                comboBox3.SelectedIndex = 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("خطا در خواندن نام مشتری‌ها: " + ex.Message);
+            }
+        }
         private void textBox5_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (currentTable != "Table2")
+                return;
+
+            if (dataGridView1.DataSource is DataTable dt)
+            {
+                string selectedCustomer = comboBox3.SelectedItem?.ToString();
+
+                if (string.IsNullOrWhiteSpace(selectedCustomer) || selectedCustomer == "همه")
+                {
+                    dt.DefaultView.RowFilter = "";
+                }
+                else
+                {
+                    selectedCustomer = selectedCustomer.Replace("'", "''");
+                    dt.DefaultView.RowFilter = $"[نام مشتری] = '{selectedCustomer}'";
+                }
+            }
+        }
+
+        private void LoadCustomerCodesIntoComboBox4()
+        {
+            string dbPath = Properties.Settings.Default.LastDBPath;
+
+            if (string.IsNullOrWhiteSpace(dbPath) || !File.Exists(dbPath))
+                return;
+
+            string provider = Path.GetExtension(dbPath).ToLower() == ".mdb"
+                ? "Microsoft.Jet.OLEDB.4.0"
+                : "Microsoft.ACE.OLEDB.16.0";
+
+            string connectionString =
+                $@"Provider={provider};Data Source={dbPath};Persist Security Info=False;";
+
+            try
+            {
+                comboBox4.Items.Clear();
+
+                comboBox4.Items.Add("همه");
+
+                using (OleDbConnection conn = new OleDbConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string query = "SELECT [کد مشتری] FROM [Table2] ORDER BY [کد مشتری]";
+
+                    using (OleDbCommand cmd = new OleDbCommand(query, conn))
+                    using (OleDbDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader["کد مشتری"] != DBNull.Value)
+                            {
+                                string customerCode = reader["کد مشتری"].ToString().Trim();
+
+                                if (!string.IsNullOrWhiteSpace(customerCode))
+                                {
+                                    comboBox4.Items.Add(customerCode);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                comboBox4.SelectedIndex = 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("خطا در خواندن کد مشتری‌ها: " + ex.Message);
+            }
+        }
+
+        private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (currentTable != "Table2")
+                return;
+
+            if (dataGridView1.DataSource is DataTable dt)
+            {
+                string selectedCustomerCode = comboBox4.SelectedItem?.ToString();
+
+                if (string.IsNullOrWhiteSpace(selectedCustomerCode) || selectedCustomerCode == "همه")
+                {
+                    dt.DefaultView.RowFilter = "";
+                }
+                else
+                {
+                    selectedCustomerCode = selectedCustomerCode.Replace("'", "''");
+
+                    // اگر ستون کد مشتری در دیتابیس Text باشد
+                    dt.DefaultView.RowFilter = $"CONVERT([کد مشتری], System.String) = '{selectedCustomerCode}'";
+                }
+            }
+        }
+
+        private void LoadCustomerNamesIntoComboBox5()
+        {
+            string dbPath = Properties.Settings.Default.LastDBPath;
+
+            if (string.IsNullOrWhiteSpace(dbPath) || !File.Exists(dbPath))
+                return;
+
+            string provider = Path.GetExtension(dbPath).ToLower() == ".mdb"
+                ? "Microsoft.Jet.OLEDB.4.0"
+                : "Microsoft.ACE.OLEDB.16.0";
+
+            string connectionString =
+                $@"Provider={provider};Data Source={dbPath};Persist Security Info=False;";
+
+            try
+            {
+                comboBox5.Items.Clear();
+
+                comboBox5.Items.Add("همه");
+
+                using (OleDbConnection conn = new OleDbConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string query = "SELECT [نام مشتری] FROM [Table2] ORDER BY [نام مشتری]";
+
+                    using (OleDbCommand cmd = new OleDbCommand(query, conn))
+                    using (OleDbDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader["نام مشتری"] != DBNull.Value)
+                            {
+                                string customerName = reader["نام مشتری"].ToString().Trim();
+
+                                if (!string.IsNullOrWhiteSpace(customerName))
+                                {
+                                    comboBox5.Items.Add(customerName);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                comboBox5.SelectedIndex = 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("خطا در خواندن نام مشتری‌ها: " + ex.Message);
+            }
+        }
+
+        private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (currentTable != "Table1")
+                return;
+
+            if (dataGridView1.DataSource is DataTable dt)
+            {
+                string selectedCustomer = comboBox5.SelectedItem?.ToString();
+
+                if (string.IsNullOrWhiteSpace(selectedCustomer) || selectedCustomer == "همه")
+                {
+                    dt.DefaultView.RowFilter = "";
+                }
+                else
+                {
+                    selectedCustomer = selectedCustomer.Replace("'", "''");
+                    dt.DefaultView.RowFilter = $"[نام مشتری] = '{selectedCustomer}'";
+                }
+            }
         }
     }
 }
