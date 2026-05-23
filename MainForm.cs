@@ -25,6 +25,14 @@ namespace afshin
         public MainForm()
         {
             InitializeComponent();
+
+            SetupDateMaskedTextBoxes();
+
+            maskedTextBox1.TextChanged += DateFilter_TextChanged;
+            maskedTextBox2.TextChanged += DateFilter_TextChanged;
+
+            // بقیه event های قبلی خودت
+
             dataGridView1.SelectionChanged += DataGridView1_SelectionChanged;
             dataGridView1.KeyDown += dataGridView1_KeyDown;
             dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
@@ -32,6 +40,64 @@ namespace afshin
 
             dataGridView1.SelectionMode = DataGridViewSelectionMode.RowHeaderSelect;
             dataGridView1.MultiSelect = true;
+        }
+
+        private void DateFilter_TextChanged(object sender, EventArgs e)
+        {
+            ApplyDateFilter();
+        }
+
+        private void ApplyDateFilter()
+        {
+            if (currentTable != "Table1")
+                return;
+
+            if (!(dataGridView1.DataSource is DataTable dt))
+                return;
+
+            string startDate = maskedTextBox1.Text.Trim();
+            string endDate = maskedTextBox2.Text.Trim();
+
+            bool hasStartDate = maskedTextBox1.MaskCompleted;
+            bool hasEndDate = maskedTextBox2.MaskCompleted;
+
+            // اگر هیچ‌کدام کامل پر نشده باشند، فیلتر تاریخ پاک شود
+            if (!hasStartDate && !hasEndDate)
+            {
+                dt.DefaultView.RowFilter = "";
+                return;
+            }
+
+            List<string> filters = new List<string>();
+
+            if (hasStartDate)
+            {
+                startDate = startDate.Replace("'", "''");
+                filters.Add($"[تاریخ حواله] >= '{startDate}'");
+            }
+
+            if (hasEndDate)
+            {
+                endDate = endDate.Replace("'", "''");
+                filters.Add($"[تاریخ حواله] <= '{endDate}'");
+            }
+
+            dt.DefaultView.RowFilter = string.Join(" AND ", filters);
+        }
+
+        private void SetupDateMaskedTextBoxes()
+        {
+            maskedTextBox1.Mask = "0000/00/00";
+            maskedTextBox2.Mask = "0000/00/00";
+
+            maskedTextBox1.TextMaskFormat = MaskFormat.IncludeLiterals;
+            maskedTextBox2.TextMaskFormat = MaskFormat.IncludeLiterals;
+
+            maskedTextBox1.RightToLeft = RightToLeft.No;
+            maskedTextBox2.RightToLeft = RightToLeft.No;
+
+            maskedTextBox1.PromptChar = '_';
+            maskedTextBox2.PromptChar = '_';
         }
 
         private async void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

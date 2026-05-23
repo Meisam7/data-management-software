@@ -30,7 +30,6 @@
         {
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.textBox10 = new System.Windows.Forms.TextBox();
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
@@ -77,6 +76,7 @@
             this.comboBox6 = new System.Windows.Forms.ComboBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
             this.SuspendLayout();
             // 
             // comboBox2
@@ -137,18 +137,6 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(227, 32);
             this.comboBox1.TabIndex = 40;
-            // 
-            // textBox10
-            // 
-            this.textBox10.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox10.Font = new System.Drawing.Font("B Nazanin", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.textBox10.Location = new System.Drawing.Point(407, 247);
-            this.textBox10.Margin = new System.Windows.Forms.Padding(5);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(227, 31);
-            this.textBox10.TabIndex = 38;
             // 
             // textBox11
             // 
@@ -761,12 +749,22 @@
             this.comboBox3.Size = new System.Drawing.Size(227, 32);
             this.comboBox3.TabIndex = 83;
             // 
+            // maskedTextBox1
+            // 
+            this.maskedTextBox1.Location = new System.Drawing.Point(407, 247);
+            this.maskedTextBox1.Mask = "0000/00/00";
+            this.maskedTextBox1.Name = "maskedTextBox1";
+            this.maskedTextBox1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.maskedTextBox1.Size = new System.Drawing.Size(227, 29);
+            this.maskedTextBox1.TabIndex = 84;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(771, 551);
             this.ControlBox = false;
+            this.Controls.Add(this.maskedTextBox1);
             this.Controls.Add(this.comboBox3);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.comboBox6);
@@ -803,7 +801,6 @@
             this.Controls.Add(this.label17);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.textBox10);
             this.Controls.Add(this.textBox11);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label11);
@@ -833,7 +830,6 @@
 
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.TextBox textBox10;
         private System.Windows.Forms.TextBox textBox11;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
@@ -880,5 +876,6 @@
         private System.Windows.Forms.ComboBox comboBox6;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.MaskedTextBox maskedTextBox1;
     }
 }

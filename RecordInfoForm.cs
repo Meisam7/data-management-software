@@ -16,7 +16,10 @@ namespace afshin
     {
         public Form2()
         {
+
             InitializeComponent();
+            maskedTextBox1.Enter += maskedTextBox1_Enter;
+            maskedTextBox1.Click += maskedTextBox1_Click;
             editingRowId = null;
         }
 
@@ -25,6 +28,21 @@ namespace afshin
             this.Close();
         }
 
+        private void maskedTextBox1_Enter(object sender, EventArgs e)
+        {
+            BeginInvoke(new Action(() =>
+            {
+                maskedTextBox1.SelectionStart = 0;
+            }));
+        }
+
+        private void maskedTextBox1_Click(object sender, EventArgs e)
+        {
+            BeginInvoke(new Action(() =>
+            {
+                maskedTextBox1.SelectionStart = 0;
+            }));
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             string requestId = textBox4.Text.Trim();              // شناسه درخواست
@@ -33,7 +51,7 @@ namespace afshin
             string havaleId = textBox5.Text.Trim();               // شناسه حواله
             string assistantName = textBox6.Text.Trim();          // معاونت
             string havaleNumberText = textBox11.Text.Trim();      // شماره حواله
-            string havaleDate = textBox10.Text.Trim();            // تاریخ حواله
+            string havaleDate = maskedTextBox1.Text.Trim();            // تاریخ حواله
             string customerName = comboBox6.Text.Trim();          // نام مشتری
             string bitumenType = comboBox1.Text.Trim();           // نوع قیر
             string receiver = comboBox4.Text.Trim();              // گیرنده
@@ -61,6 +79,13 @@ namespace afshin
                 return;
             }
 
+            if (!maskedTextBox1.MaskFull)
+            {
+                MessageBox.Show("لطفاً تاریخ حواله را کامل وارد کنید.");
+                maskedTextBox1.Focus();
+                return;
+            }
+
             if (string.IsNullOrWhiteSpace(province))
             {
                 MessageBox.Show("لطفاً استان را وارد کنید.");
@@ -78,7 +103,7 @@ namespace afshin
             if (string.IsNullOrWhiteSpace(havaleDate))
             {
                 MessageBox.Show("لطفاً تاریخ حواله را وارد کنید.");
-                textBox10.Focus();
+                maskedTextBox1.Focus();
                 return;
             }
 
@@ -562,7 +587,7 @@ namespace afshin
                                 textBox4.Text = reader["شناسه درخواست"].ToString();
                                 textBox6.Text = reader["معاونت"].ToString();
                                 textBox11.Text = reader["شماره حواله"].ToString();
-                                textBox10.Text = reader["تاریخ حواله"].ToString();
+                                maskedTextBox1.Text = reader["تاریخ حواله"].ToString();
                                 comboBox6.Text = reader["نام مشتری"].ToString();
                                 comboBox1.Text = reader["نوع قیر"].ToString();
                                 comboBox4.Text = reader["گیرنده"].ToString();
@@ -607,7 +632,7 @@ namespace afshin
             string havaleId = textBox5.Text.Trim();
             string assistantName = textBox6.Text.Trim();
             string havaleNumberText = textBox11.Text.Trim();
-            string havaleDate = textBox10.Text.Trim();
+            string havaleDate = maskedTextBox1.Text.Trim();
             string customerName = comboBox6.Text.Trim();
             string bitumenType = comboBox1.Text.Trim();
             string receiver = comboBox4.Text.Trim();
@@ -647,7 +672,7 @@ namespace afshin
             if (string.IsNullOrWhiteSpace(havaleDate))
             {
                 MessageBox.Show("لطفاً تاریخ حواله را وارد کنید.");
-                textBox10.Focus();
+                maskedTextBox1.Focus();
                 return;
             }
 
