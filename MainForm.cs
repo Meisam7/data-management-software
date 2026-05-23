@@ -183,6 +183,7 @@ namespace afshin
             LoadCustomerNamesIntoComboBox3();
             LoadCustomerCodesIntoComboBox4();
             LoadCustomerNamesIntoComboBox5();
+            LoadInvoiceStatusesIntoComboBox6();
         }
 
         private async void dataGridView1_KeyDown(object sender, KeyEventArgs e)
@@ -639,15 +640,7 @@ namespace afshin
 
         private void textBox10_TextChanged(object sender, EventArgs e)
         {
-            if (dataGridView1.DataSource is DataTable dt)
-            {
-                string search = textBox10.Text.Replace("'", "''");
 
-                if (string.IsNullOrWhiteSpace(search))
-                    dt.DefaultView.RowFilter = ""; // Show all rows
-                else
-                    dt.DefaultView.RowFilter = $"[وضعیت فاکتور] LIKE '%{search}%'";
-            }
         }
 
         public void RefreshTable2()
@@ -748,6 +741,8 @@ namespace afshin
                 await Task.Run(() => Class1.LoadTableIntoGrid(dataGridView1, "Table1"));
 
                 currentTable = "Table1";
+
+                comboBox6.SelectedItem = "همه";
 
                 if (comboBox5.Items.Contains("همه"))
                 {
@@ -1057,6 +1052,38 @@ namespace afshin
                 {
                     selectedCustomer = selectedCustomer.Replace("'", "''");
                     dt.DefaultView.RowFilter = $"[نام مشتری] = '{selectedCustomer}'";
+                }
+            }
+        }
+
+        private void LoadInvoiceStatusesIntoComboBox6()
+        {
+            comboBox6.Items.Clear();
+
+            comboBox6.Items.Add("همه");
+            comboBox6.Items.Add("صادر شده");
+            comboBox6.Items.Add("صادر نشده");
+
+            comboBox6.SelectedIndex = 0;
+        }
+
+        private void comboBox6_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (currentTable != "Table1")
+                return;
+
+            if (dataGridView1.DataSource is DataTable dt)
+            {
+                string selectedStatus = comboBox6.SelectedItem?.ToString();
+
+                if (string.IsNullOrWhiteSpace(selectedStatus) || selectedStatus == "همه")
+                {
+                    dt.DefaultView.RowFilter = "";
+                }
+                else
+                {
+                    selectedStatus = selectedStatus.Replace("'", "''");
+                    dt.DefaultView.RowFilter = $"[وضعیت فاکتور] = '{selectedStatus}'";
                 }
             }
         }
