@@ -21,6 +21,60 @@ namespace afshin
             maskedTextBox1.Enter += maskedTextBox1_Enter;
             maskedTextBox1.Click += maskedTextBox1_Click;
             editingRowId = null;
+            SetupEnterNavigation();
+        }
+
+        private void SetupEnterNavigation()
+        {
+            Control[] controlsOrder =
+            {
+        textBox4,
+        comboBox5,
+        textBox5,
+        textBox6,
+        comboBox2,
+        textBox11,
+        maskedTextBox1,
+        comboBox6,
+        comboBox1,
+        textBox20,
+        comboBox3,
+        textBox22,
+        textBox15,
+        comboBox4,
+        textBox13,
+        textBox12,
+        textBox7,
+        textBox8,
+        textBox3,
+        textBox21,
+        textBox1,
+        textBox2
+    };
+
+            foreach (Control control in controlsOrder)
+            {
+                control.KeyDown += (sender, e) =>
+                {
+                    if (e.KeyCode == Keys.Enter)
+                    {
+                        e.SuppressKeyPress = true;
+
+                        Control currentControl = sender as Control;
+
+                        int currentIndex = Array.IndexOf(controlsOrder, currentControl);
+
+                        if (currentIndex >= 0 && currentIndex < controlsOrder.Length - 1)
+                        {
+                            controlsOrder[currentIndex + 1].Focus();
+                        }
+                        else
+                        {
+                            button1.Focus(); // بعد از آخرین فیلد بره روی دکمه افزودن
+                        }
+                    }
+                };
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
